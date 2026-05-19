@@ -186,9 +186,3 @@ goauth/
 ├── Makefile
 └── .env.example
 ```
-
----
-
-## License
-
-MIT — use it, fork it, build on it.
