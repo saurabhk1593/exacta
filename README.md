@@ -1,17 +1,17 @@
-# GoAuth
+# Exacta
 
 > Lightweight, self-hosted auth service for teams who find Keycloak too heavy and Auth0 too expensive.
 
 [![Go 1.22](https://img.shields.io/badge/Go-1.22-00ADD8?logo=go)](https://go.dev/)
 [![Docker](https://img.shields.io/badge/Docker-ready-2496ED?logo=docker)](docker-compose.yml)
 
-GoAuth is a production-grade, multi-tenant authentication and authorization service built in Go. It gives your SaaS product JWT-based auth, RBAC, refresh token rotation with theft detection, audit logging, and a built-in rate limiter — deployable in under 5 minutes with a single Docker command.
+Exacta is a production-grade, multi-tenant authentication and authorization service built in Go. It gives your SaaS product JWT-based auth, RBAC, refresh token rotation with theft detection, audit logging, and a built-in rate limiter — deployable in under 5 minutes with a single Docker command.
 
 ---
 
-## Why GoAuth
+## Why Exacta
 
-| Problem | GoAuth's answer |
+| Problem | Exacta's answer |
 |---|---|
 | Keycloak is a 500MB JVM behemoth | 12MB Go binary, runs in `scratch` container |
 | Auth0/Clerk costs $240/mo for 1000 MAUs | Self-hosted, zero per-user cost |
@@ -65,8 +65,8 @@ GoAuth is a production-grade, multi-tenant authentication and authorization serv
 
 ```bash
 # Clone
-git clone https://github.com/saurabhkumar/goauth
-cd goauth
+git clone https://github.com/saurabhk1593/exacta
+cd exacta
 
 # Configure
 cp .env.example .env
