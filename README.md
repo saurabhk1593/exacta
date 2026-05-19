@@ -3,7 +3,6 @@
 > Lightweight, self-hosted auth service for teams who find Keycloak too heavy and Auth0 too expensive.
 
 [![Go 1.22](https://img.shields.io/badge/Go-1.22-00ADD8?logo=go)](https://go.dev/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Docker](https://img.shields.io/badge/Docker-ready-2496ED?logo=docker)](docker-compose.yml)
 
 GoAuth is a production-grade, multi-tenant authentication and authorization service built in Go. It gives your SaaS product JWT-based auth, RBAC, refresh token rotation with theft detection, audit logging, and a built-in rate limiter — deployable in under 5 minutes with a single Docker command.
