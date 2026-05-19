@@ -1,0 +1,90 @@
+version: "3.9"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - PORT=8080
+      - ENV=production
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USER=goauth
+      - DB_PASSWORD=goauth_secret
+      - DB_NAME=goauth
+      - DB_SSLMODE=disable
+      - REDIS_ADDR=redis:6379
+      - JWT_ACCESS_SECRET=${JWT_ACCESS_SECRET}
+      - JWT_REFRESH_SECRET=${JWT_REFRESH_SECRET}
+      - JWT_ACCESS_EXPIRY=15m
+      - JWT_REFRESH_EXPIRY=168h
+      - RATE_LIMIT_RPM=60
+      - RATE_LIMIT_WINDOW_SEC=60
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - goauth
+
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: goauth
+      POSTGRES_PASSWORD: goauth_secret
+      POSTGRES_DB: goauth
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U goauth"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - goauth
+
+  redis:
+    image: redis:7-alpine
+    command: redis-server --appendonly yes
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    networks:
+      - goauth
+
+  migrate:
+    image: migrate/migrate
+    profiles: ["migrate"]
+    volumes:
+      - ./migrations:/migrations
+    command: [
+      "-path", "/migrations",
+      "-database", "postgres://goauth:goauth_secret@postgres:5432/goauth?sslmode=disable",
+      "up"
+    ]
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - goauth
+
+volumes:
+  postgres_data:
+  redis_data:
+
+networks:
+  goauth:
+    driver: bridge
